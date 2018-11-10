@@ -3,14 +3,14 @@
 
 ![screenshot](ioemu-screenshot.png)
 
-The ioemu-project provides a simple emulator for input output operations with simple elextronic components like LEDs and push buttons.
+The ioemu-project provides a simple emulator for input output operations with simple electronic components like LEDs and push buttons.
 
 ## Installation
 
 Use pip for a simple installation
 
-- Linux, MacOS: python3 -m pip install ioemu
-- Windows: python -m pip install ioemu
+- Linux, MacOS: `python3 -m pip install ioemu`
+- Windows: `python -m pip install ioemu`
 
 ## Examples
 
@@ -35,7 +35,7 @@ emu.tick()
 
 ![screenshot](ioemu-screenshot.png)
 
-The emulator contains two buttons. Their current state (pressed or not pressed) can be read from the attribute `button_pressed`. It's a bool array corresponding to the state of being pressed.
+The emulator has two buttons. Their current state (pressed or not pressed) can be read from the attribute `button_pressed`. It's a bool array corresponding to the state of being pressed.
 
 You can either click one of the buttons or use the key 1 and 2 on your keyboard.
 
