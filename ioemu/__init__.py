@@ -18,8 +18,8 @@ class Emulator:
         self.num_leds = 8
         self.button_pressed = [False, False]
 
-        self._ledoff = pygame.image.load(self._absolute_path(LED_ON_FILE))
-        self._ledon = pygame.image.load(self._absolute_path(LED_OFF_FILE))
+        self._ledoff = pygame.image.load(self._absolute_path(LED_OFF_FILE))
+        self._ledon = pygame.image.load(self._absolute_path(LED_ON_FILE))
         self._button = pygame.image.load(self._absolute_path(BUTTON_FILE))
         self._button_rects = [self._button.get_rect(), self._button.get_rect()]
         self._image_width = self._ledon.get_width()
@@ -34,6 +34,8 @@ class Emulator:
     def write(self, buffer):
         '''Write value to display buffer. Buffer must be an integer whose 
         binary representation will be shown on the display.'''
+        assert 0 <= buffer < 255
+
         self._buffer = buffer
 
     def _absolute_path(self, filename):
