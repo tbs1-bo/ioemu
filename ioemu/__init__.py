@@ -52,6 +52,14 @@ class Emulator:
                 click_down = (event.type == pygame.MOUSEBUTTONDOWN)
                 for i, rect in enumerate(self._button_rects):
                     self.button_pressed[i] = rect.collidepoint(xy) and click_down
+
+            if event.type in (pygame.KEYDOWN, pygame.KEYUP):
+                key_down = (event.type == pygame.KEYDOWN)
+                print("keydown", key_down)
+                if event.key == pygame.K_1:
+                    self.button_pressed[0] = key_down
+                if event.key == pygame.K_2:
+                    self.button_pressed[1] = key_down
         
     def _update_screen(self):
         self._display.fill((255,255,255))

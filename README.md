@@ -33,7 +33,11 @@ emu.tick()
 
 ## Buttons
 
+![screenshot](ioemu-screenshot.png)
+
 The emulator contains two buttons. Their current state (pressed or not pressed) can be read from the attribute `button_pressed`. It's a bool array corresponding to the state of being pressed.
+
+You can either click one of the buttons or use the key 1 and 2 on your keyboard.
 
 
 ```python
@@ -45,6 +49,10 @@ while True:
     if emu.button_pressed[1]:
         emu.write(0b00001111)
 
+    if not (emu.button_pressed[0] or emu.button_pressed[1]):
+        emu.write(0b00000000)
+
+        
     emu.tick()
 ```
 
