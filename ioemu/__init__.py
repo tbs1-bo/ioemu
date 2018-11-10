@@ -80,23 +80,3 @@ class Emulator:
         self._update_screen()
         pygame.display.flip()
         self._clock.tick(self._framerate)
-
-
-def testEmulator():
-    emu = Emulator()
-    i = 1
-    while True:
-        if emu.button_pressed[0]:
-            i += 1
-        if emu.button_pressed[1]:
-            i -= 1
-
-        # fit i into range of values
-        i = i % 255
-
-        emu.write(i)
-        emu.tick()
-
-
-if __name__ == '__main__':
-    testEmulator()
