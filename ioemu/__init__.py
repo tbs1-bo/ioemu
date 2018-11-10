@@ -4,7 +4,9 @@ import sys
 
 import pygame
 
+# taken from https://openclipart.org/detail/248021/red-led-lamp-on
 LED_ON_FILE = 'ledon.png'
+# taken from https://openclipart.org/detail/248019/red-led-lamp
 LED_OFF_FILE = 'ledoff.png'
 # taken from https://openclipart.org/detail/299643/dpst-micro-push-button-switch
 BUTTON_FILE = 'button.png'
@@ -25,7 +27,7 @@ class Emulator:
         self._image_width = self._ledon.get_width()
         self._display = pygame.display.set_mode(
             (num_leds*self._image_width + len(self._button_rects) * self._button.get_width(),
-             self._button.get_height()))
+             self._ledon.get_height()))
         pygame.display.set_caption('IO Emulator')
         self._buffer = 0
         self._framerate = framerate
