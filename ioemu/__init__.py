@@ -55,7 +55,6 @@ class Emulator:
 
             if event.type in (pygame.KEYDOWN, pygame.KEYUP):
                 key_down = (event.type == pygame.KEYDOWN)
-                print("keydown", key_down)
                 if event.key == pygame.K_1:
                     self.button_pressed[0] = key_down
                 if event.key == pygame.K_2:
