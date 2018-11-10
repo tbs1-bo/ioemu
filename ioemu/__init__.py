@@ -15,7 +15,7 @@ class Emulator:
     def __init__(self, num_leds=8, framerate=60):
         pygame.init()
 
-        self.num_leds = 8
+        self.num_leds = num_leds
         self.button_pressed = [False, False]
 
         self._ledoff = pygame.image.load(self._absolute_path(LED_OFF_FILE))
@@ -57,7 +57,7 @@ class Emulator:
         self._display.fill((255,255,255))
 
         payload_str = bin(self._buffer)[2:]
-        payload_str = payload_str.zfill(8)
+        payload_str = payload_str.zfill(self.num_leds)
         
         # draw LEDs
         for i in range(len(payload_str)):            
