@@ -54,8 +54,8 @@ class Emulator:
             if event.type in (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP):
                 xy = pygame.mouse.get_pos()
                 click_down = (event.type == pygame.MOUSEBUTTONDOWN)
-                for i, rect in enumerate(self._button_rects):
-                    self.button_pressed[i] = rect.collidepoint(xy) and click_down
+                for i, btn_rect in enumerate(self._button_rects):
+                    self.button_pressed[i] = btn_rect.collidepoint(xy) and click_down
 
             if event.type in (pygame.KEYDOWN, pygame.KEYUP):
                 key_down = (event.type == pygame.KEYDOWN)
