@@ -33,6 +33,8 @@ class Emulator:
         self._framerate = framerate
         self._clock = pygame.time.Clock()
 
+        self.tick()
+
     def write(self, buffer):
         '''Write value to display buffer. Buffer must be an integer whose 
         binary representation will be shown on the display.'''
