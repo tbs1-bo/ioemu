@@ -19,7 +19,7 @@ setuptools.setup(
     package_data={
         '': ['*png'],  # include image files for all packages
     },
-    install_requires='pygame>=1.9.4',
+    install_requires='PyQt5>=5.11.3',
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
