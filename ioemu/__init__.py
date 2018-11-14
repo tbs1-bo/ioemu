@@ -22,8 +22,8 @@ class Emulator(mainwindow.Ui_MainWindow):
         self.button_pressed = [False, False]
         self.slider_value = 0
 
-        self._ledon = PyQt5.QtGui.QPixmap(self._absolute_path(LED_ON_FILE))
-        self._ledoff = PyQt5.QtGui.QPixmap(self._absolute_path(LED_OFF_FILE))
+        self._ledon = PyQt5.QtGui.QPixmap(_absolute_path(LED_ON_FILE))
+        self._ledoff = PyQt5.QtGui.QPixmap(_absolute_path(LED_OFF_FILE))
 
         self._buffer = 0
 
@@ -53,12 +53,8 @@ class Emulator(mainwindow.Ui_MainWindow):
         assert 0 <= buffer < 8
 
         self._buffer = buffer
-        self.update()
+        self._update_screen()
 
-    def _absolute_path(self, filename):
-        'Create absolute path for given filename.'
-        return os.path.join(os.path.dirname(__file__), filename)
-        
     def _update_screen(self):
         payload_str = bin(self._buffer)[2:]
         payload_str = payload_str.zfill(self.num_leds)
@@ -68,8 +64,12 @@ class Emulator(mainwindow.Ui_MainWindow):
             image = self._ledon if payload_str[i] == '1' else self._ledoff
             self._led_lbls[i].setPixmap(image)
 
-    def update(self):
-        self._update_screen()
+
+def _absolute_path(filename):
+    'Create absolute path for given filename.'
+    return os.path.join(os.path.dirname(__file__), filename)
+        
+
 
 if __name__ == '__main__':
     app = PyQt5.QtWidgets.QApplication([])
