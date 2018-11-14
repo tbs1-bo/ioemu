@@ -2,7 +2,7 @@
 import os
 import sys
 
-import mainwindow
+from . import mainwindow
 import PyQt5
 
 # taken from https://openclipart.org/detail/248021/red-led-lamp-on
@@ -79,7 +79,3 @@ def run():
     emu.write(0b101)
 
     app.exec_()
-
-
-if __name__ == '__main__':
-    run()
