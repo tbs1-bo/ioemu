@@ -1,1 +1,2 @@
-- Add slider for analog values.
+- provide network interaction
+  http://doc.qt.io/qt-5/qnetworkaccessmanager.html#details
