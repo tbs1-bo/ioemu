@@ -2,7 +2,8 @@
 import os
 import sys
 
-import pygame
+import mainwindow
+import PyQt5
 
 # taken from https://openclipart.org/detail/248021/red-led-lamp-on
 LED_ON_FILE = 'ledon.png'
@@ -12,82 +13,65 @@ LED_OFF_FILE = 'ledoff.png'
 BUTTON_FILE = 'button.png'
 
 
-class Emulator:
+class Emulator(mainwindow.Ui_MainWindow):
 
-    def __init__(self, num_leds=8, framerate=60):
-        pygame.init()
+    def __init__(self, num_leds=3, framerate=60):
+        super().__init__()
 
         self.num_leds = num_leds
         self.button_pressed = [False, False]
 
-        self._ledoff = pygame.image.load(self._absolute_path(LED_OFF_FILE))
-        self._ledon = pygame.image.load(self._absolute_path(LED_ON_FILE))
-        self._button = pygame.image.load(self._absolute_path(BUTTON_FILE))
-        self._button_rects = [self._button.get_rect(), self._button.get_rect()]
-        self._image_width = self._ledon.get_width()
-        self._display = pygame.display.set_mode(
-            (num_leds*self._image_width + len(self._button_rects) * self._button.get_width(),
-             self._ledon.get_height()))
-        pygame.display.set_caption('IO Emulator')
-        self._buffer = 0
-        self._framerate = framerate
-        self._clock = pygame.time.Clock()
+        self._ledon = PyQt5.QtGui.QPixmap(self._absolute_path(LED_ON_FILE))
+        self._ledoff = PyQt5.QtGui.QPixmap(self._absolute_path(LED_OFF_FILE))
 
-        self.tick()
+        self._buffer = 0
+
+    def setupUi(self, main_win):
+        super().setupUi(main_win)
+        self.btn1.pressed.connect(lambda: self._btn_clicked(0, True))
+        self.btn2.pressed.connect(lambda: self._btn_clicked(1, True))
+        self.btn1.released.connect(lambda: self._btn_clicked(0, False))
+        self.btn2.released.connect(lambda: self._btn_clicked(1, False))
+
+        self.led_lbl1.setPixmap(self._ledoff)
+        self.led_lbl2.setPixmap(self._ledoff)
+        self.led_lbl3.setPixmap(self._ledoff)
+        self._led_lbls = [self.led_lbl1, self.led_lbl2, self.led_lbl3]
+
+    def _btn_clicked(self, num, on_off):
+        print("Btn clicked", num, on_off)
+        self.button_pressed[num] = on_off
 
     def write(self, buffer):
         '''Write value to display buffer. Buffer must be an integer whose 
         binary representation will be shown on the display.'''
-        assert 0 <= buffer < 255
+        assert 0 <= buffer < 8
 
         self._buffer = buffer
 
     def _absolute_path(self, filename):
         'Create absolute path for given filename.'
         return os.path.join(os.path.dirname(__file__), filename)
-
-    def _handle_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit(0)
-
-            if event.type in (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP):
-                xy = pygame.mouse.get_pos()
-                click_down = (event.type == pygame.MOUSEBUTTONDOWN)
-                for i, btn_rect in enumerate(self._button_rects):
-                    self.button_pressed[i] = btn_rect.collidepoint(xy) and click_down
-
-            if event.type in (pygame.KEYDOWN, pygame.KEYUP):
-                key_down = (event.type == pygame.KEYDOWN)
-                if event.key == pygame.K_1:
-                    self.button_pressed[0] = key_down
-                if event.key == pygame.K_2:
-                    self.button_pressed[1] = key_down
         
     def _update_screen(self):
-        self._display.fill((255,255,255))
-
         payload_str = bin(self._buffer)[2:]
         payload_str = payload_str.zfill(self.num_leds)
         
         # draw LEDs
         for i in range(len(payload_str)):            
-            image = self._ledon if payload_str[i] == '1' else self._ledoff            
-            x = i * self._image_width
-            
-            self._display.blit(image, dest=(x, 0))
+            image = self._ledon if payload_str[i] == '1' else self._ledoff
+            self._led_lbls[i].setPixmap(image)
 
-        # draw buttons right to the leds
-        button_x = len(payload_str) * self._image_width
-        self._button_rects[0].x = button_x
-        self._button_rects[1].x = self._button_rects[0].x + self._button_rects[0].width
-        for rect in self._button_rects:
-            self._display.blit(self._button, rect)
-
-        pygame.display.flip()
-
-    def tick(self):
-        self._handle_events()
+    def update(self):
         self._update_screen()
-        pygame.display.flip()
-        self._clock.tick(self._framerate)
+
+if __name__ == '__main__':
+    app = PyQt5.QtWidgets.QApplication([])
+    main_win = PyQt5.QtWidgets.QMainWindow()
+    emu = Emulator()
+    emu.setupUi(main_win)
+    main_win.show()
+    emu.write(0b101)
+    emu.update()
+
+    app.exec_()
