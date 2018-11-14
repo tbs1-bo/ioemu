@@ -20,6 +20,7 @@ class Emulator(mainwindow.Ui_MainWindow):
 
         self.num_leds = num_leds
         self.button_pressed = [False, False]
+        self.slider_value = 0
 
         self._ledon = PyQt5.QtGui.QPixmap(self._absolute_path(LED_ON_FILE))
         self._ledoff = PyQt5.QtGui.QPixmap(self._absolute_path(LED_OFF_FILE))
@@ -37,6 +38,12 @@ class Emulator(mainwindow.Ui_MainWindow):
         self.led_lbl2.setPixmap(self._ledoff)
         self.led_lbl3.setPixmap(self._ledoff)
         self._led_lbls = [self.led_lbl1, self.led_lbl2, self.led_lbl3]
+
+        self.slider.valueChanged.connect(self._slider_value_changed)
+
+    def _slider_value_changed(self):
+        print("slider changed", self.slider.value())
+        self.slider_value = self.slider.value()
 
     def _btn_clicked(self, num, on_off):
         print("Btn clicked", num, on_off)
