@@ -42,11 +42,9 @@ class Emulator(mainwindow.Ui_MainWindow):
         self.slider.valueChanged.connect(self._slider_value_changed)
 
     def _slider_value_changed(self):
-        print("slider changed", self.slider.value())
         self.slider_value = self.slider.value()
 
     def _btn_clicked(self, num, on_off):
-        print("Btn clicked", num, on_off)
         self.button_pressed[num] = on_off
 
     def write(self, buffer):
@@ -55,6 +53,7 @@ class Emulator(mainwindow.Ui_MainWindow):
         assert 0 <= buffer < 8
 
         self._buffer = buffer
+        self.update()
 
     def _absolute_path(self, filename):
         'Create absolute path for given filename.'
@@ -79,6 +78,5 @@ if __name__ == '__main__':
     emu.setupUi(main_win)
     main_win.show()
     emu.write(0b101)
-    emu.update()
 
     app.exec_()
