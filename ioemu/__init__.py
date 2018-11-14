@@ -70,8 +70,7 @@ def _absolute_path(filename):
     return os.path.join(os.path.dirname(__file__), filename)
         
 
-
-if __name__ == '__main__':
+def run():
     app = PyQt5.QtWidgets.QApplication([])
     main_win = PyQt5.QtWidgets.QMainWindow()
     emu = Emulator()
@@ -80,3 +79,7 @@ if __name__ == '__main__':
     emu.write(0b101)
 
     app.exec_()
+
+
+if __name__ == '__main__':
+    run()
