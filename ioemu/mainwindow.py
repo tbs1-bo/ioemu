@@ -11,14 +11,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(440, 279)
+        MainWindow.resize(440, 216)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.btn1 = QtWidgets.QPushButton(self.centralwidget)
-        self.btn1.setGeometry(QtCore.QRect(370, 40, 61, 51))
+        self.btn1.setGeometry(QtCore.QRect(360, 20, 71, 71))
         self.btn1.setObjectName("btn1")
         self.btn2 = QtWidgets.QPushButton(self.centralwidget)
-        self.btn2.setGeometry(QtCore.QRect(370, 120, 61, 51))
+        self.btn2.setGeometry(QtCore.QRect(360, 130, 71, 71))
         self.btn2.setObjectName("btn2")
         self.slider = QtWidgets.QSlider(self.centralwidget)
         self.slider.setGeometry(QtCore.QRect(20, 10, 22, 191))
@@ -40,13 +40,6 @@ class Ui_MainWindow(object):
         self.led_lbl3.setPixmap(QtGui.QPixmap("ledoff.png"))
         self.led_lbl3.setObjectName("led_lbl3")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 440, 22))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -56,14 +49,4 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "IO Emulator"))
         self.btn1.setText(_translate("MainWindow", "1"))
         self.btn2.setText(_translate("MainWindow", "2"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
 
