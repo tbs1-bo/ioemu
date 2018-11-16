@@ -25,7 +25,7 @@ LED_OFF_FILE = 'ledoff.png'
 # taken from https://openclipart.org/detail/299643/dpst-micro-push-button-switch
 BUTTON_FILE = 'button.png'
 
-TCP_SERVER_PORT = 9999
+TCP_SERVER_PORT = int(os.environ.get('IOEMU_PORT', default='9999'))
 NUM_LEDS = 3  # don't change this unless you know what you are doing.
 
 class EmulatorGui(mainwindow.Ui_MainWindow):
