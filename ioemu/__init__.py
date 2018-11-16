@@ -10,6 +10,7 @@ Response: xy.zz where x and y are in (0, 1) and represent the state of the
 '''
 import os
 import sys
+import socket
 
 import PyQt5
 import PyQt5.QtNetwork
@@ -104,6 +105,29 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
             image = self._ledon if payload_str[i] == '1' else self._ledoff
             self._led_lbls[i].setPixmap(image)
 
+
+class Emulator:
+    def __init__(self):
+        self.host = ''
+        self._button_pressed = [False, False]
+        self.sock = socket.socket()
+
+    @property
+    def button_pressed(self):
+        # TODO ask for button state
+        return self._button_pressed
+
+    def write(self, buffer):
+        'Write buffer to display.'
+        self.sock.connect(('localhost', TCP_SERVER_PORT))
+        payload = bin(buffer)[2:].zfill(NUM_LEDS)
+        payload = bytes(payload, "UTF8")
+        print("sending", payload)
+        self.sock.send(payload)
+        response = self.sock.recv(1024)
+        response = str(response, "UTF8")
+        self.sock.close()
+        
 
 def _absolute_path(filename):
     'Create absolute path for given filename.'
