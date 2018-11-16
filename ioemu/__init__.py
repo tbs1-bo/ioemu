@@ -25,13 +25,13 @@ LED_OFF_FILE = 'ledoff.png'
 BUTTON_FILE = 'button.png'
 
 TCP_SERVER_PORT = 9999
+NUM_LEDS = 3  # don't change this unless you know what you are doing.
 
 class Emulator(mainwindow.Ui_MainWindow):
 
-    def __init__(self, num_leds=3, framerate=60):
+    def __init__(self):
         super().__init__()
 
-        self.num_leds = num_leds
         self.button_pressed = [False, False]
         self.slider_value = 0
 
@@ -68,7 +68,8 @@ class Emulator(mainwindow.Ui_MainWindow):
         if len(payload) != 3:
             return  # wrong payload length
 
-        #self.write(int(payload, base=2))
+        # update screen
+        self.write(int(payload, base=2))
 
         # create response: state of buttons
         resp = ''
@@ -89,14 +90,14 @@ class Emulator(mainwindow.Ui_MainWindow):
     def write(self, buffer):
         '''Write value to display buffer. Buffer must be an integer whose 
         binary representation will be shown on the display.'''
-        assert 0 <= buffer <= 0b111, buffer
+        assert 0 <= buffer < 2*NUM_LEDS
 
         self._buffer = buffer
         self._update_screen()
 
     def _update_screen(self):
         payload_str = bin(self._buffer)[2:]
-        payload_str = payload_str.zfill(self.num_leds)
+        payload_str = payload_str.zfill(NUM_LEDS)
         
         # draw LEDs
         for i in range(len(payload_str)):            
