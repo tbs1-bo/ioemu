@@ -39,7 +39,7 @@ emu.leds = [True, False, True]
 
 ## Buttons
 
-![screenshot](ioemu-screenshot.png)
+![screenshot](buttons.gif)
 
 The emulator has two buttons. Their current state (pressed or not pressed) can be read from the attribute `buttons`. It's a bool array corresponding to the state of being pressed.
 
@@ -60,6 +60,8 @@ while True:
 ## Analog Value (0-99)
 
 Next a program that lets you control the LEDs with the slider at the left. The current sliders value can be read from the `analog_value` attribute. Its value ranges from 0 to 99.
+
+![image](analog_value.gif)
 
 
 ```python
