@@ -111,7 +111,7 @@ class Emulator:
         self.sock = socket.socket()
 
     @property
-    def button_pressed(self):
+    def buttons(self):
         # response has format xx.yy where xx is the button state
         response = self._send(' ').split('.')[0]
         return [response[0] == '1', response[1] == '1']
@@ -122,10 +122,17 @@ class Emulator:
         response = self._send(' ').split('.')[1]
         return int(response)
 
-    def write(self, buffer):
-        'Write buffer to display.'
+    @property
+    def leds(self):
+        raise Exception('Attribute leds cannot be read but is write-only.')
 
-        payload = bin(buffer)[2:].zfill(NUM_LEDS)
+    @leds.setter
+    def leds(self, abc):
+        a, b, c = abc
+        payload = ''
+        for b in abc:
+            payload += '1' if b else '0'
+
         #print("sending", payload)
         response = self._send(payload)
 
