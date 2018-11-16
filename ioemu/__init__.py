@@ -109,6 +109,7 @@ class Emulator:
     def __init__(self):
         self.host = ''
         self._button_pressed = [False, False]
+        self._analog_value = 0
         self.sock = socket.socket()
 
     @property
@@ -118,11 +119,17 @@ class Emulator:
 
         return self._button_pressed
 
+    @property
+    def analog_value(self):
+        response = self._send(' ').split('.')[1]
+        self._analog_value = int(response)
+        return self._analog_value
+
     def write(self, buffer):
         'Write buffer to display.'
 
         payload = bin(buffer)[2:].zfill(NUM_LEDS)
-        print("sending", payload)
+        #print("sending", payload)
         response = self._send(payload)
 
         if len(response) == 2:
@@ -133,7 +140,7 @@ class Emulator:
             sock.connect(('localhost', TCP_SERVER_PORT))
             sock.send(bytes(payload, 'ASCII'))
             response = str(sock.recv(10), 'ASCII')
-            print("response", response)
+            #print("response", response)
 
             return response
 
