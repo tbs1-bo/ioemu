@@ -19,6 +19,10 @@ setuptools.setup(
     package_data={
         '': ['*png'],  # include image files for all packages
     },
+    entry_points = {
+        'console_scripts': [],
+        'gui_scripts': ['ioemu = ioemu:run']
+    },
     install_requires='PyQt5>=5.11.3',
     classifiers=[
         "Programming Language :: Python :: 3",
