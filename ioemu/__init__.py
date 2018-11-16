@@ -47,17 +47,27 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
     def setupUi(self, main_win):
         super().setupUi(main_win)
+
+        # connection slots
         self.btn1.pressed.connect(lambda: self._btn_clicked(0, True))
         self.btn2.pressed.connect(lambda: self._btn_clicked(1, True))
         self.btn1.released.connect(lambda: self._btn_clicked(0, False))
         self.btn2.released.connect(lambda: self._btn_clicked(1, False))
+        self.slider.valueChanged.connect(self._slider_value_changed)
+
+        # setting icons
+        pix = PyQt5.QtGui.QPixmap(_absolute_path(BUTTON_FILE))
+        buttonpic = PyQt5.QtGui.QIcon(pix)
+        self.btn1.setIcon(buttonpic)
+        self.btn1.setIconSize(self.btn1.rect().size())
+        self.btn2.setIcon(buttonpic)
+        self.btn2.setIconSize(self.btn2.rect().size())
 
         self.led_lbl1.setPixmap(self._ledoff)
         self.led_lbl2.setPixmap(self._ledoff)
         self.led_lbl3.setPixmap(self._ledoff)
         self._led_lbls = [self.led_lbl1, self.led_lbl2, self.led_lbl3]
 
-        self.slider.valueChanged.connect(self._slider_value_changed)
 
     def _new_session(self):
         sock = self._tcp_server.nextPendingConnection()
@@ -141,7 +151,10 @@ class Emulator:
 
     def _send(self, payload):
         with socket.socket() as sock:
-            sock.connect(('localhost', TCP_SERVER_PORT))
+            try:
+                sock.connect(('localhost', TCP_SERVER_PORT))
+            except ConnectionRefusedError:
+                raise Exception("Unable to connect to Emulator. Maybe it is not running.")
             sock.send(bytes(payload, 'ASCII'))
             response = str(sock.recv(10), 'ASCII')
             #print("response", response)
