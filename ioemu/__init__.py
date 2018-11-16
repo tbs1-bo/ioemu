@@ -27,7 +27,7 @@ BUTTON_FILE = 'button.png'
 TCP_SERVER_PORT = 9999
 NUM_LEDS = 3  # don't change this unless you know what you are doing.
 
-class Emulator(mainwindow.Ui_MainWindow):
+class EmulatorGui(mainwindow.Ui_MainWindow):
 
     def __init__(self):
         super().__init__()
@@ -113,7 +113,7 @@ def _absolute_path(filename):
 def run():
     app = PyQt5.QtWidgets.QApplication([])
     main_win = PyQt5.QtWidgets.QMainWindow()
-    emu = Emulator()
+    emu = EmulatorGui()
     emu.setupUi(main_win)
     main_win.show()
     emu.write(0b101)
