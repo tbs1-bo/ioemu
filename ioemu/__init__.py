@@ -65,7 +65,7 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
         # assuming 010, 110, ...
         payload = str(sock.readAll(), "ASCII").strip()
-        print("request", payload)
+        #print("request", payload)
         if len(payload) == 3:
             # update screen
             self.write(int(payload, base=2))
@@ -77,7 +77,7 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
         # add slider value to response
         resp += '.' + str(self.slider_value).zfill(2)
-        print("response", resp)
+        #print("response", resp)
         sock.write(bytes(resp, "ASCII"))
         sock.disconnectFromHost()
 
