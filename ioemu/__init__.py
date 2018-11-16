@@ -1,9 +1,21 @@
-# ioemu/__ini__.py
+# ioemu/__init__.py
+'''
+Client and server of the emulator are communication with the following protocol:
+
+Request: xyz where x, y and z in (0,1) will turn the LED x, y or z  
+  on(1) or off(0)
+
+Response: xy.zz where x and y are in (0, 1) and represent the state of the 
+  buttons. zz if the value of the analog slider between 00 and 99.
+'''
 import os
 import sys
 
-from . import mainwindow
 import PyQt5
+import PyQt5.QtNetwork
+
+from . import mainwindow
+
 
 # taken from https://openclipart.org/detail/248021/red-led-lamp-on
 LED_ON_FILE = 'ledon.png'
@@ -12,6 +24,7 @@ LED_OFF_FILE = 'ledoff.png'
 # taken from https://openclipart.org/detail/299643/dpst-micro-push-button-switch
 BUTTON_FILE = 'button.png'
 
+TCP_SERVER_PORT = 9999
 
 class Emulator(mainwindow.Ui_MainWindow):
 
@@ -27,6 +40,10 @@ class Emulator(mainwindow.Ui_MainWindow):
 
         self._buffer = 0
 
+        self._tcp_server = PyQt5.QtNetwork.QTcpServer()
+        self._tcp_server.newConnection.connect(self._new_session)
+        self._tcp_server.listen(port=TCP_SERVER_PORT)       
+
     def setupUi(self, main_win):
         super().setupUi(main_win)
         self.btn1.pressed.connect(lambda: self._btn_clicked(0, True))
@@ -41,6 +58,28 @@ class Emulator(mainwindow.Ui_MainWindow):
 
         self.slider.valueChanged.connect(self._slider_value_changed)
 
+    def _new_session(self):
+        sock = self._tcp_server.nextPendingConnection()
+        sock.waitForReadyRead(msecs=100)
+
+        # assuming 010, 110, ...
+        payload = str(sock.readAll(), "UTF8").strip()
+        print("payload", payload)
+        if len(payload) != 3:
+            return  # wrong payload length
+
+        #self.write(int(payload, base=2))
+
+        # create response: state of buttons
+        resp = ''
+        for btn in self.button_pressed:
+            resp += '1' if btn else '0'
+
+        # add slider value to response
+        resp += '.' + str(self.slider_value).zfill(2)
+        sock.write(bytes(resp, "UTF8"))
+        sock.disconnectFromHost()
+
     def _slider_value_changed(self):
         self.slider_value = self.slider.value()
 
@@ -50,7 +89,7 @@ class Emulator(mainwindow.Ui_MainWindow):
     def write(self, buffer):
         '''Write value to display buffer. Buffer must be an integer whose 
         binary representation will be shown on the display.'''
-        assert 0 <= buffer < 8
+        assert 0 <= buffer <= 0b111, buffer
 
         self._buffer = buffer
         self._update_screen()
