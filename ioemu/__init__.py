@@ -108,22 +108,19 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 class Emulator:
     def __init__(self):
         self.host = ''
-        self._button_pressed = [False, False]
-        self._analog_value = 0
         self.sock = socket.socket()
 
     @property
     def button_pressed(self):
+        # response has format xx.yy where xx is the button state
         response = self._send(' ').split('.')[0]
-        self._button_pressed = [response[0] == '1', response[1] == '1']
-
-        return self._button_pressed
+        return [response[0] == '1', response[1] == '1']
 
     @property
     def analog_value(self):
+        # response has format xx.yy where yy is the analog value
         response = self._send(' ').split('.')[1]
-        self._analog_value = int(response)
-        return self._analog_value
+        return int(response)
 
     def write(self, buffer):
         'Write buffer to display.'
