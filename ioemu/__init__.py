@@ -64,13 +64,11 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
         sock.waitForReadyRead(msecs=100)
 
         # assuming 010, 110, ...
-        payload = str(sock.readAll(), "UTF8").strip()
-        print("payload", payload)
-        if len(payload) != 3:
-            return  # wrong payload length
-
-        # update screen
-        self.write(int(payload, base=2))
+        payload = str(sock.readAll(), "ASCII").strip()
+        print("request", payload)
+        if len(payload) == 3:
+            # update screen
+            self.write(int(payload, base=2))
 
         # create response: state of buttons
         resp = ''
@@ -79,7 +77,8 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
         # add slider value to response
         resp += '.' + str(self.slider_value).zfill(2)
-        sock.write(bytes(resp, "UTF8"))
+        print("response", resp)
+        sock.write(bytes(resp, "ASCII"))
         sock.disconnectFromHost()
 
     def _slider_value_changed(self):
@@ -91,7 +90,7 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
     def write(self, buffer):
         '''Write value to display buffer. Buffer must be an integer whose 
         binary representation will be shown on the display.'''
-        assert 0 <= buffer < 2*NUM_LEDS
+        assert 0 <= buffer < 2 ** NUM_LEDS, buffer
 
         self._buffer = buffer
         self._update_screen()
@@ -114,19 +113,31 @@ class Emulator:
 
     @property
     def button_pressed(self):
-        # TODO ask for button state
+        response = self._send(' ').split('.')[0]
+        self._button_pressed = [response[0] == '1', response[1] == '1']
+
         return self._button_pressed
 
     def write(self, buffer):
         'Write buffer to display.'
-        self.sock.connect(('localhost', TCP_SERVER_PORT))
+
         payload = bin(buffer)[2:].zfill(NUM_LEDS)
-        payload = bytes(payload, "UTF8")
         print("sending", payload)
-        self.sock.send(payload)
-        response = self.sock.recv(1024)
-        response = str(response, "UTF8")
-        self.sock.close()
+        response = self._send(payload)
+
+        if len(response) == 2:
+            self.button_pressed = [response[0] == '1', response[1] == '1']
+
+    def _send(self, payload):
+        with socket.socket() as sock:
+            sock.connect(('localhost', TCP_SERVER_PORT))
+            sock.send(bytes(payload, 'ASCII'))
+            response = str(sock.recv(10), 'ASCII')
+            print("response", response)
+
+            return response
+
+
         
 
 def _absolute_path(filename):
