@@ -43,7 +43,9 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
         self._tcp_server = PyQt5.QtNetwork.QTcpServer()
         self._tcp_server.newConnection.connect(self._new_session)
-        self._tcp_server.listen(port=TCP_SERVER_PORT)       
+
+        self._tcp_server.listen(address=PyQt5.QtNetwork.QHostAddress.LocalHost,
+                                port=TCP_SERVER_PORT)       
 
     def setupUi(self, main_win):
         super().setupUi(main_win)
