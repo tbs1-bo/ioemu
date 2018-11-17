@@ -26,6 +26,10 @@
     <property name="text">
      <string>1</string>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>button.png</normaloff>button.png</iconset>
+    </property>
    </widget>
    <widget class="QPushButton" name="btn2">
     <property name="geometry">
@@ -38,6 +42,10 @@
     </property>
     <property name="text">
      <string>2</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>button.png</normaloff>button.png</iconset>
     </property>
    </widget>
    <widget class="QSlider" name="slider">
