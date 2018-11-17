@@ -80,3 +80,11 @@ while True:
     else:
         emu.leds = [True, True, True]
 ```
+
+## Demo
+
+There is a demo program that can be started with `python -m ioemu.demo`. It will blink the LEDs, print the current button state and analog value to console.
+
+![demo](demo.gif)
+
+You can find the source code in [demo.py](https://github.com/tbs1-bo/ioemu/blob/master/ioemu/demo.py).
