@@ -87,4 +87,4 @@ There is a demo program that can be started with `python -m ioemu.demo`. It will
 
 ![demo](demo.gif)
 
-You can find the source code in [demo.py](https://github.com/tbs1-bo/ioemu/blob/master/ioemu/demo.py).
+You can find the source code in [demo.py](ioemu/demo.py).
