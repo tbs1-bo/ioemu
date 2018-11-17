@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ioemu",
-    version="0.1.0",
+    version="0.1.1",
     author="Marco Bakera",
     author_email="marco@bakera.de",
     description="IO Emulator with LEDs and buttons",
