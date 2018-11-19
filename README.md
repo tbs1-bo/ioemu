@@ -3,11 +3,11 @@
 
 ![screenshot](ioemu-screenshot.png)
 
-The ioemu-project provides a simple emulator for input/output operations with simple electronic components like LEDs and push buttons.
+The ioemu-project provides an  emulator for input/output operations with simple electronic components like LEDs and push buttons.
 
-## Installation
+## Installation and Upgrade
 
-Use pip for a simple installation
+Use pip for a simple installation. For an update use `install --update`. 
 
 - Linux, MacOS: `python3 -m pip install ioemu`
 - Windows: `python -m pip install ioemu`
@@ -22,7 +22,7 @@ It contains a slider for analog values between 0 and 99, threee LEDs and two pus
 
 ## LEDs
 
-If the emulator is running, you interact with it from any python program. First import the class `Emulator` from the `ioemu` package.
+If the emulator is running, you can interact with it from any python program running on the same machine. First import the class `Emulator` from the `ioemu` package.
 
 
 ```python
@@ -43,6 +43,8 @@ emu.leds = [True, False, True]
 
 The emulator has two buttons. Their current state (pressed or not pressed) can be read from the attribute `buttons`. It's a bool array corresponding to the state of being pressed.
 
+The following program lights up some LEDs depending on the button being pressed.
+
 
 ```python
 emu = Emulator()
@@ -59,7 +61,7 @@ while True:
 
 ## Analog Value (0-99)
 
-Next a program that lets you control the LEDs with the slider at the left. The current sliders value can be read from the `analog_value` attribute. Its value ranges from 0 to 99.
+Let's look into a program that allows you to control the LEDs with the slider at the left. The current sliders value can be read from the `analog_value` attribute of the Emulator. Its value ranges from 0 to 99.
 
 ![image](analog_value.gif)
 
@@ -83,7 +85,7 @@ while True:
 
 ## Demo
 
-There is a demo program that can be started with `python -m ioemu.demo`. It will blink the LEDs, print the current button state and analog value to console.
+There is a demo program that can be started with `python -m ioemu.demo`. It will blink the LEDs and print the current button state as well as the analog value to console.
 
 ![demo](demo.gif)
 
