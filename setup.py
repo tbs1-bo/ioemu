@@ -3,12 +3,14 @@
 
 import setuptools
 
+import ioemu
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="ioemu",
-    version="0.1.2",
+    version=ioemu.VERSION,
     author="Marco Bakera",
     author_email="marco@bakera.de",
     description="IO Emulator with LEDs and buttons",

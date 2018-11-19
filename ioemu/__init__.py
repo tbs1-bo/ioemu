@@ -17,6 +17,7 @@ import PyQt5.QtNetwork
 
 from . import mainwindow
 
+VERSION = '0.1.3'
 
 # taken from https://openclipart.org/detail/248021/red-led-lamp-on
 LED_ON_FILE = 'ledon.png'
@@ -173,6 +174,8 @@ def _absolute_path(filename):
         
 
 def run():
+    print("ioemu (version " + VERSION + ')')
+    print("listening on localhost port", TCP_SERVER_PORT)
     app = PyQt5.QtWidgets.QApplication([])
     main_win = PyQt5.QtWidgets.QMainWindow()
     emu = EmulatorGui()
