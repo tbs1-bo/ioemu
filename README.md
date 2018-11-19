@@ -7,7 +7,7 @@ The ioemu-project provides an  emulator for input/output operations with simple 
 
 ## Installation and Upgrade
 
-Use pip for a simple installation. For an update use `install --update`. 
+Use pip for a simple installation. For an update use `install --upgrade`. 
 
 - Linux, MacOS: `python3 -m pip install ioemu`
 - Windows: `python -m pip install ioemu`
