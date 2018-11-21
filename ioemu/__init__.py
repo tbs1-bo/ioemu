@@ -120,7 +120,7 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
 class Emulator:
     def __init__(self, port=TCP_SERVER_PORT):
-        self.host = ''
+        self.host = 'localhost'
         self.port = port
         self.sock = socket.socket()
 
@@ -157,7 +157,7 @@ class Emulator:
     def _send(self, payload):
         with socket.socket() as sock:
             try:
-                sock.connect(('localhost', self.port))
+                sock.connect((self.host, self.port))
             except ConnectionRefusedError:
                 raise Exception("Unable to connect to Emulator. Maybe it is not running.")
             sock.send(bytes(payload, 'ASCII'))
