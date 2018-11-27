@@ -123,6 +123,7 @@ class Emulator:
         self.host = 'localhost'
         self.port = port
         self.sock = socket.socket()
+        self._leds = [False, False, False]
 
     @property
     def buttons(self):
@@ -138,11 +139,13 @@ class Emulator:
 
     @property
     def leds(self):
-        raise Exception('Attribute leds cannot be read but is write-only.')
+        return self._leds
 
     @leds.setter
     def leds(self, abc):
         assert len(abc) == 3, "There must be three values for the LEDs."
+
+        self._leds = abc
 
         payload = ''
         for b in abc:
