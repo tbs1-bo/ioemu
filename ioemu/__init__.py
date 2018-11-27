@@ -143,7 +143,7 @@ class Emulator:
     @leds.setter
     def leds(self, abc):
         assert len(abc) == 3, "There must be three values for the LEDs."
-        a, b, c = abc
+
         payload = ''
         for b in abc:
             payload += '1' if b else '0'
