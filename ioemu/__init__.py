@@ -119,10 +119,13 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
 
 class Emulator:
+    _port2buttonstate = {}
+
     def __init__(self, port=TCP_SERVER_PORT):
         self.host = 'localhost'
         self.port = port
         self.sock = socket.socket()
+        Emulator._port2buttonstate[self.port] = [False, False, False]
 
     @property
     def buttons(self):
@@ -138,11 +141,13 @@ class Emulator:
 
     @property
     def leds(self):
-        raise Exception('Attribute leds cannot be read but is write-only.')
+        return Emulator._port2buttonstate[self.port]
 
     @leds.setter
     def leds(self, abc):
         assert len(abc) == 3, "There must be three values for the LEDs."
+
+        Emulator._port2buttonstate[self.port] = abc
 
         payload = ''
         for b in abc:
