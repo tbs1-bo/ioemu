@@ -183,7 +183,7 @@ def _absolute_path(filename):
         
 
 def run():
-    print("ioemu (version " + VERSION + ')')
+    print("ioemu (version %s)" % VERSION)
     print("listening on localhost port", TCP_SERVER_PORT)
     app = PyQt5.QtWidgets.QApplication([])
     main_win = PyQt5.QtWidgets.QMainWindow()
