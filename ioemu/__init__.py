@@ -119,6 +119,7 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
 
 class Emulator:
+    # remember button state for several emulator instances.
     _port2buttonstate = {}
 
     def __init__(self, port=TCP_SERVER_PORT):
