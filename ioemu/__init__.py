@@ -9,6 +9,10 @@ Request: xyz where x, y and z in (0,1) will turn the LED x, y or z
 Response: bb.aa where each b is in (0, 1) and represents the state of a
   button. aa is the value of the analog slider between 00 and 99.
 '''
+# TODO change protocol to return LxxxByyAzz to return led status xxx, button 
+#      state yy and analog value zz - e.g. L101B01Z42 lighting first and last 
+#      LED, second buttong pressed and analog value of 42.
+
 import os
 import sys
 import socket
