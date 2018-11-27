@@ -1,1 +1,1 @@
-- Add support for multiple instances of the emulator - using different ports.
+- Add support for reading led status from the emulator.

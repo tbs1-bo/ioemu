@@ -119,6 +119,7 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
 
 class Emulator:
+    # TODO change this to asking the emulator directly.
     # remember button state for several emulator instances.
     _port2buttonstate = {}
 
