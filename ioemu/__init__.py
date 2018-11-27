@@ -3,10 +3,11 @@
 Client and server of the emulator are communication with the following protocol:
 
 Request: xyz where x, y and z in (0,1) will turn the LED x, y or z  
-  on(1) or off(0)
+  on(1) or off(0). Request with a length other than 3 will have no effect on 
+  the status of the LEDs.
 
-Response: xy.zz where x and y are in (0, 1) and represent the state of the 
-  buttons. zz if the value of the analog slider between 00 and 99.
+Response: bb.aa where each b is in (0, 1) and represents the state of a
+  button. aa is the value of the analog slider between 00 and 99.
 '''
 import os
 import sys
