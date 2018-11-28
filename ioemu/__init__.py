@@ -31,6 +31,12 @@ TCP_SERVER_PORT = int(os.environ.get('IOEMU_PORT', default='9999'))
 NUM_LEDS = 3  # don't change this unless you know what you are doing.
 
 
+def request_compose(buttons):
+    req = ''
+    for b in buttons:
+        req += '1' if b else '0'
+    return req
+
 def request_decompose(payload):
     'Assume payload lll with boolean values.'
 
