@@ -34,6 +34,49 @@ BUTTON_FILE = 'button.png'
 TCP_SERVER_PORT = int(os.environ.get('IOEMU_PORT', default='9999'))
 NUM_LEDS = 3  # don't change this unless you know what you are doing.
 
+
+def request_decompose(payload):
+    'Assume payload lll with boolean values.'
+
+    leds = []
+    for l in payload:
+        leds.append(l == '1')
+
+    return leds
+
+def response_compose(leds, buttons, analog):
+    'Create response of format lll;bb;aa'
+    resp = ''
+    for led in leds:
+        resp += '1' if led else '0'
+    resp += ';'
+
+    for btn in buttons:
+        resp += '1' if btn else '0'
+    resp += ';'
+
+    # add slider value to response
+    resp += str(analog).zfill(2)
+
+def response_decompose(payload):
+    '''decompose payload into three entries: LED states, button 
+    states, analog value. Assuming format lll;bb;aa'''
+    
+    lll, bb, aa = payload.split(';')
+    leds = []
+    for l in lll:
+        leds.append(l == '1')
+
+    buttons = []
+    for b in bb:
+        buttons.append(b == '1')
+
+    analog = float(aa)
+
+    return leds, buttons, analog
+
+
+
 class EmulatorGui(mainwindow.Ui_MainWindow):
 
     def __init__(self, port=TCP_SERVER_PORT):
