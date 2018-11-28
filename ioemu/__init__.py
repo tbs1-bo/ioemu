@@ -73,7 +73,7 @@ def response_decompose(payload):
     for b in bb:
         buttons.append(b == '1')
 
-    analog = float(aa)
+    analog = int(aa)
 
     return leds, buttons, analog
 
