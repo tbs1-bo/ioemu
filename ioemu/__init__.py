@@ -181,15 +181,14 @@ class Emulator:
 
     @property
     def buttons(self):
-        # response has format xx.yy where xx is the button state
-        response = self._send(' ').split('.')[0]
-        return [response[0] == '1', response[1] == '1']
+        _, buttons, _ = self._send(' ')
+        return buttons
 
     @property
     def analog_value(self):
         # response has format xx.yy where yy is the analog value
-        response = self._send(' ').split('.')[1]
-        return int(response)
+        _, _, analog = self._send(' ')
+        return analog
 
     @property
     def leds(self):
@@ -201,9 +200,7 @@ class Emulator:
 
         Emulator._port2buttonstate[self.port] = abc
 
-        payload = ''
-        for b in abc:
-            payload += '1' if b else '0'
+        payload = request_compose(abc)
 
         #print("sending", payload)
         response = self._send(payload)
@@ -221,7 +218,7 @@ class Emulator:
             response = str(sock.recv(10), 'ASCII')
             #print("response", response)
 
-            return response
+            return response_decompose(response)
 
 
         
