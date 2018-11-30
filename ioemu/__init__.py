@@ -32,13 +32,17 @@ NUM_LEDS = 3  # don't change this unless you know what you are doing.
 
 
 def request_compose(buttons):
+    assert len(buttons) == 3
+
     req = ''
     for b in buttons:
         req += '1' if b else '0'
+
     return req
 
 def request_decompose(payload):
     'Assume payload lll with boolean values.'
+    assert len(payload) == 3
 
     leds = []
     for l in payload:
@@ -59,11 +63,13 @@ def response_compose(leds, buttons, analog):
 
     # add slider value to response
     resp += str(analog).zfill(2)
+    return resp
 
 def response_decompose(payload):
     '''decompose payload into three entries: LED states, button 
     states, analog value. Assuming format lll;bb;aa'''
-    
+
+    assert len(payload) == 9    
     lll, bb, aa = payload.split(';')
     leds = []
     for l in lll:
@@ -134,15 +140,18 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
             self.write(int(payload, base=2))
 
         # create response: state of buttons
-        resp = ''
-        for btn in self.button_pressed:
-            resp += '1' if btn else '0'
-
-        # add slider value to response
-        resp += '.' + str(self.slider_value).zfill(2)
-        #print("response", resp)
+        leds = self.__get_led_state()
+        resp = response_compose(leds, self.button_pressed, self.slider_value)
         sock.write(bytes(resp, "ASCII"))
         sock.disconnectFromHost()
+
+    def __get_led_state(self):
+        'Read the LEDs state from the pixmap of the labels.'
+        return [
+            self.led_lbl1.pixmap() == self._ledon,
+            self.led_lbl2.pixmap() == self._ledon,
+            self.led_lbl3.pixmap() == self._ledon
+        ]
 
     def _slider_value_changed(self):
         self.slider_value = self.slider.value()
@@ -215,7 +224,7 @@ class Emulator:
             except ConnectionRefusedError:
                 raise Exception("Unable to connect to Emulator. Maybe it is not running.")
             sock.send(bytes(payload, 'ASCII'))
-            response = str(sock.recv(10), 'ASCII')
+            response = str(sock.recv(32), 'ASCII')
             #print("response", response)
 
             return response_decompose(response)
