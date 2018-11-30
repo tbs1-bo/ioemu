@@ -178,15 +178,11 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
 
 
 class Emulator:
-    # TODO change this to asking the emulator directly.
-    # remember button state for several emulator instances.
-    _port2buttonstate = {}
 
     def __init__(self, port=TCP_SERVER_PORT):
         self.host = 'localhost'
         self.port = port
         self.sock = socket.socket()
-        Emulator._port2buttonstate[self.port] = [False, False, False]
 
     @property
     def buttons(self):
@@ -201,23 +197,21 @@ class Emulator:
 
     @property
     def leds(self):
-        return Emulator._port2buttonstate[self.port]
+        led, _, _ = self._send(' ')
+        return led
 
     @leds.setter
     def leds(self, abc):
         assert len(abc) == 3, "There must be three values for the LEDs."
 
-        Emulator._port2buttonstate[self.port] = abc
-
         payload = request_compose(abc)
 
         #print("sending", payload)
-        response = self._send(payload)
-
-        if len(response) == 2:
-            self.button_pressed = [response[0] == '1', response[1] == '1']
+        _, buttons, _ = self._send(payload)
+        self.button_pressed = buttons
 
     def _send(self, payload):
+        'send payload and return response.'
         with socket.socket() as sock:
             try:
                 sock.connect((self.host, self.port))
