@@ -18,7 +18,7 @@ import PyQt5.QtNetwork
 
 from . import mainwindow
 
-VERSION = '0.2.0'
+VERSION = '0.3.0'
 
 # taken from https://openclipart.org/detail/248021/red-led-lamp-on
 LED_ON_FILE = 'ledon.png'
