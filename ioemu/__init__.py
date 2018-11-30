@@ -1,10 +1,10 @@
 # ioemu/__init__.py
 '''
-Client and server of the emulator are communication with the following protocol:
+Client and server of the emulator are communicating with the following protocol:
 
 Request: xyz where x, y and z in (0,1) will turn the LED x, y or z  
   on(1) or off(0). Request with a length other than 3 will have no effect on 
-  the status of the LEDs.
+  the status of the LEDs but can be used to force a response.
 
 Response: lll;bb;aa where each l and b is in (0, 1) and represents the state
   of an LED or button. aa is the value of the analog slider between 00 and 99.
@@ -127,7 +127,6 @@ class EmulatorGui(mainwindow.Ui_MainWindow):
         self.led_lbl3.setPixmap(self._ledoff)
         self._led_lbls = [self.led_lbl1, self.led_lbl2, self.led_lbl3]
 
-
     def _new_session(self):
         sock = self._tcp_server.nextPendingConnection()
         sock.waitForReadyRead(msecs=100)
@@ -223,8 +222,6 @@ class Emulator:
 
             return response_decompose(response)
 
-
-        
 
 def _absolute_path(filename):
     'Create absolute path for given filename.'
