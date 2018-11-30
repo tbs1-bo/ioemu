@@ -93,4 +93,4 @@ You can find the source code in [demo.py](ioemu/demo.py).
 
 ## Bugs
 
-If you find any bugs or have a feature request, feel free to file a ticket at the projects [bugtracker](https://github.com/tbs1-bo/ioemu/issues/new) at github.
+If you find any bugs or have a feature request, feel free to file a ticket at the projects [bugtracker](https://github.com/tbs1-bo/ioemu/issues/new) on github.
