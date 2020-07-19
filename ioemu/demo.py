@@ -4,7 +4,7 @@ import time
 import ioemu
 
 # Port to which the demo client talks
-# Can be overriden by an environmental variable.
+# Can be overridden by an environmental variable.
 DEMO_CLIENT_PORT = int(os.environ.get('IOEMU_DEMO_CLIENT_PORT', default=ioemu.TCP_SERVER_PORT))
 
 
