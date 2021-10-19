@@ -12,13 +12,15 @@ Response: lll;bb;aa where each l and b is in (0, 1) and represents the state
 import os
 import sys
 import socket
+import pkg_resources
 
 import PyQt5
 import PyQt5.QtNetwork
 
 from . import mainwindow
 
-VERSION = '0.3.0'
+VERSION = pkg_resources.get_distribution('ioemu').version
+
 
 # taken from https://openclipart.org/detail/248021/red-led-lamp-on
 LED_ON_FILE = 'ledon.png'

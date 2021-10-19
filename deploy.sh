@@ -1,13 +1,8 @@
-#!/bin/sh
-
-# remove old files
-rm -rf dist/*
+#!/bin/bash
 
 # create documentation from notebook
 jupyter nbconvert README.ipynb --to markdown
 
-# create distribution files
-python3 setup.py sdist bdist_wheel
+poetry build
+poetry publish
 
-# upload files to pypi
-twine upload dist/*
