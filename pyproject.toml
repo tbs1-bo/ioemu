@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "ioemu"
-version = "0.3.1"
+version = "0.3.2"
 description = "IO Emulator with LEDs and buttons"
 readme = "README.md"
 authors = ["Marco Bakera <marco@bakera.de>"]
 license = "MIT"
+homepage = "https://tbs1-bo.github.io/ioemu/"
 repository = "https://github.com/tbs1-bo/ioemu"
 classifiers=[
     "Programming Language :: Python :: 3",
