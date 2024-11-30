@@ -6,3 +6,4 @@ build/
 ioemu.egg-info/
 .ipynb_checkpoints/
 poetry.lock
+pypi_credentials.sh
