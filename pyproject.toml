@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ioemu"
-version = "0.3.2"
+version = "0.3.4"
 description = "IO Emulator with LEDs and buttons"
 readme = "README.md"
 authors = ["Marco Bakera <marco@bakera.de>"]
@@ -17,8 +17,9 @@ classifiers=[
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.9"
 PyQt5 = "^5.11.3"
+setuptools = "^75.6.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.11.1"
